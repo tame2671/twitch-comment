@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Comments per Minute</title>
+    {% for css_file in css_resources %}
+    <link rel="stylesheet" href="{{ css_file }}" />
+    {% endfor %} {% for js_file in js_resources %}
+    <script src="{{ js_file }}"></script>
+    {% endfor %} {{ script|safe }}
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh; /* 全画面の高さ */
+      }
+
+      #header {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        font-size: 1.5em;
+        font-weight: bold;
+        background-color: #f0f0f0; /* ヘッダーの背景色 */
+      }
+
+      #content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 80vh; /* コンテンツを画面の80%に制限 */
+        width: 100%;
+      }
+
+      #player {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-height: 45vh; /* プレイヤーを全体の45%に制限 */
+      }
+
+      #player iframe {
+        width: 960px; /* プレイヤー幅を960pxに固定 */
+        height: 540px; /* プレイヤー高さを540pxに固定 */
+        max-height: 100%; /* 高さを45vh以内に収める */
+      }
+
+      #graph {
+        flex: 1;
+        max-height: 35vh; /* グラフを全体の35%に制限 */
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ビデオIDを表示するヘッダー -->
+    <div id="header">Video ID: {{ video_id }}</div>
+
+    <div id="content">
+      <!-- Twitch埋め込みプレイヤー -->
+      <div id="player">
+        <iframe
+          id="twitch-player"
+          src="https://player.twitch.tv/?video={{ video_id }}&parent={{ parent_domain }}"
+          frameborder="0"
+          allowfullscreen
+          scrolling="no"
+        >
+        </iframe>
+      </div>
+
+      <!-- Bokehグラフ -->
+      <div id="graph">{{ div|safe }}</div>
+    </div>
+  </body>
+</html>

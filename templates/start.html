@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>コメント取得中...</title>
+  </head>
+  <body>
+    <h1>コメント取得中です。しばらくお待ちください...</h1>
+    <!-- 簡易的なインジケーター例 -->
+    <div>Loading...</div>
+    <script>
+      const videoId = "{{ video_id }}";
+      // AJAXリクエストでコメント取得開始
+      fetch(`/do_retrieval?video_id=${videoId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status === "done") {
+            // 取得完了後、plot_doneへ遷移
+            window.location.href = `/plot_done?video_id=${videoId}`;
+          } else {
+            alert("取得中にエラーが発生しました");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("エラーが発生しました");
+        });
+    </script>
+  </body>
+</html>
